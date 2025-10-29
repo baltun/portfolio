@@ -6,12 +6,22 @@
     <title>Илья Колесников — Laravel разработка</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --main-bg: #f7f5ee; /* светло-бежевый, фон Anthropic */
+            --accent: #e88c5a; /* мягкий оранжево-коричневый, как у Anthropic */
+            --accent2: #c7b7a3; /* бежево-коричневый для блоков */
+            --accent3: #efdcc5; /* бежево-коричневый для блоков */
+            --section-bg: #fff; /* белый */
+            --text-main: #222; /* черный */
+            --text-light: #6b7280; /* серый */
+            --button: #e88c5a; /* оранжево-коричневый */
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.7;
-            color: #2c3e50;
-            background: #f8f9fa;
+            color: var(--text-main);
+            background: var(--main-bg);
             overflow-x: hidden;
         }
         .container {
@@ -23,22 +33,16 @@
         /* Header с параллаксом */
         header {
             position: relative;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--main-bg);
+            color: var(--text-main);
             padding: 100px 40px 80px;
-            text-align: center;
+            text-align: left;
             overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(102,126,234,0.2);
+            border-radius: 0;
+            box-shadow: 0 20px 60px rgba(159, 92, 24, 0.2);
         }
         header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80') center/cover;
-            opacity: 0.18;
-            background-attachment: fixed;
-            z-index: 0;
+            display: none;
         }
         header .content { position: relative; z-index: 1; }
         header h1 {
@@ -46,7 +50,7 @@
             margin-bottom: 15px;
             font-weight: 800;
             letter-spacing: -1px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            text-shadow: none;
         }
         header p {
             font-size: 1.5em;
@@ -62,76 +66,69 @@
         .contact-info {
             display: flex;
             gap: 20px;
-            justify-content: center;
+            justify-content: flex-start;
             flex-wrap: wrap;
             margin-top: 40px;
         }
         .contact-info a {
-            color: white;
+            color: var(--text-main);
             text-decoration: none;
             padding: 14px 28px;
-            background: rgba(255,255,255,0.12);
-            border: 2px solid rgba(255,255,255,0.18);
-            border-radius: 50px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
+            background: var(--accent3);
+            border: none;
+            border-radius: 16px;
+            transition: background 0.3s;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 10px;
+            box-shadow: none;
         }
         .contact-info a:hover {
-            background: rgba(255,255,255,0.22);
-            border-color: rgba(255,255,255,0.4);
+            background: var(--accent);
+            color: var(--section-bg);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102,126,234,0.2);
+            box-shadow: 0 10px 30px rgba(159, 92, 24,0.2);
         }
         .contact-info a i { font-size: 1.2em; }
         /* Секции с параллаксом */
         section {
-            background: white;
+            background: var(--section-bg);
             padding: 80px 60px;
             margin: 60px 0;
-            border-radius: 20px;
-            box-shadow: 0 4px 40px rgba(102,126,234,0.08);
+            border-radius: 24px;
+            box-shadow: none;
             position: relative;
             overflow: hidden;
+            animation: fadeIn 1.2s ease;
+            border: none;
         }
         section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            display: none;
         }
         .parallax {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80') center/cover;
-            opacity: 0.10;
-            background-attachment: fixed;
-            z-index: 0;
+            display: none;
         }
         h2 {
-            color: #667eea;
+            color: var(--text-main);
             margin-bottom: 40px;
-            font-size: 2.5em;
+            font-size: 2.6em;
             font-weight: 700;
             position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
+            display: block;
+            letter-spacing: -1px;
         }
-        h2 i { color: #764ba2; font-size: 0.9em; }
+        h2 i { color: var(--accent); font-size: 0.9em; }
         h3 {
-            color: #764ba2;
+            color: var(--accent);
             margin: 40px 0 25px 0;
-            font-size: 1.6em;
+            font-size: 1.4em;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        h3 i { color: #667eea; }
+        h3 i { color: var(--accent3); }
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
@@ -139,21 +136,20 @@
             margin-top: 30px;
         }
         .tech-stack span {
-            background: #667eea;
-            color: white;
+            background: var(--accent3);
+            color: var(--text-main);
             padding: 10px 20px;
             border-radius: 8px;
             font-size: 0.9em;
             font-weight: 500;
-            border: 1px solid #764ba2;
-            transition: all 0.3s;
+            border: none;
+            transition: background 0.3s;
         }
         .tech-stack span:hover {
-            background: #764ba2;
-            color: #fff;
-            border-color: #667eea;
+            background: var(--accent);
+            color: var(--section-bg);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102,126,234,0.2);
+            box-shadow: 0 4px 12px rgba(159, 92, 24,0.2);
         }
         /* Тарифные пакеты */
         .packages {
@@ -163,83 +159,73 @@
             margin: 40px 0;
         }
         .package {
-            border: 2px solid #e0e0e0;
+            background: var(--accent3);
             padding: 45px 35px;
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 24px;
+            transition: background 0.3s, box-shadow 0.3s;
             position: relative;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            z-index: 1;
+            box-shadow: none;
+            border: none;
         }
         .package:hover {
-            border-color: #667eea;
+            background: var(--accent);
+            color: var(--section-bg);
             transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(102,126,234,0.15);
+            box-shadow: 0 20px 60px rgba(159, 92, 24,0.15);
         }
         .package.popular {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 12px 40px rgba(102,126,234,0.2);
+            background: var(--accent);
+            color: var(--section-bg);
+            box-shadow: 0 12px 40px rgba(159, 92, 24,0.2);
         }
         .package.popular h4,
         .package.popular .price,
         .package.popular ul li {
-            color: white;
+            color: var(--section-bg);
         }
         .package.popular .price-detail {
-            color: #e0e0e0;
+            color: var(--accent2);
         }
         .package.popular ul li::before {
-            color: #fbbf24;
+            color: var(--accent2);
         }
         .package.popular::before {
-            content: "★ Популярно";
-            position: absolute;
-            top: -15px;
-            right: 30px;
-            background: #fbbf24;
-            color: #764ba2;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.85em;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(251,191,36,0.4);
+            display: none;
         }
         .package-icon {
             width: 70px;
             height: 70px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--accent2);
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 25px;
             font-size: 2em;
-            color: white;
-            box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+            color: var(--accent);
+            box-shadow: 0 8px 24px rgba(159, 92, 24,0.15);
         }
         .package h4 {
             font-size: 1.8em;
             margin-bottom: 15px;
-            color: #2c3e50;
+            color: var(--text-main);
             font-weight: 700;
         }
         .package .price {
-            font-size: 2.5em;
-            color: #667eea;
+            font-size: 2.2em;
+            color: var(--accent);
             font-weight: 800;
             margin: 20px 0 10px;
         }
         .package .param {
             font-size: 1.1em;
-            color: #764ba2;
+            color: var(--text-main);
             margin-bottom: 8px;
             font-weight: 500;
         }
         .package .discount {
             font-size: 1em;
-            color: #fbbf24;
+            color: var(--accent);
             margin-bottom: 18px;
             font-weight: 600;
         }
@@ -251,27 +237,27 @@
             padding: 12px 0;
             padding-left: 30px;
             position: relative;
-            color: #4a4a4a;
+            color: var(--text-main);
         }
         .package ul li::before {
             content: "\2713";
             position: absolute;
             left: 0;
-            color: #667eea;
+            color: var(--accent);
             font-weight: bold;
             font-size: 1.2em;
         }
         /* CTA */
         .cta {
-            text-align: center;
-            padding: 100px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 20px;
+            text-align: left;
+            padding: 60px 40px;
+            background: var(--accent2);
+            color: var(--text-main);
+            border-radius: 24px;
             margin-top: 80px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(102,126,234,0.3);
+            box-shadow: 0 20px 60px rgba(159, 92, 24,0.3);
         }
         .cta::before {
             content: '';
@@ -282,42 +268,45 @@
             background-attachment: fixed;
         }
         .cta-content { position: relative; z-index: 1; }
-        .cta h2 { color: white; margin-bottom: 25px; }
-        .cta h2 i { color: #fbbf24; }
-        .cta p { font-size: 1.4em; margin-bottom: 40px; opacity: 0.95; line-height: 1.6; }
+        .cta h2 { color: var(--text-main); margin-bottom: 25px; font-size: 2em; }
+        .cta h2 i { color: var(--accent); }
+        .cta p { font-size: 1.2em; margin-bottom: 40px; opacity: 0.95; line-height: 1.6; }
         .cta-buttons {
             display: flex;
             gap: 20px;
-            justify-content: center;
+            justify-content: flex-start;
             flex-wrap: wrap;
         }
         .cta-buttons a {
-            background: white;
-            color: #667eea;
-            padding: 18px 40px;
-            border-radius: 50px;
+            background: var(--accent);
+            color: var(--section-bg);
+            padding: 16px 36px;
+            border-radius: 16px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: background 0.3s;
             display: flex;
             align-items: center;
             gap: 12px;
             font-size: 1.05em;
-            box-shadow: 0 8px 24px rgba(102,126,234,0.2);
+            border: none;
+            box-shadow: 0 8px 24px rgba(159, 92, 24,0.2);
         }
         .cta-buttons a:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(102,126,234,0.3);
-            background: #667eea;
-            color: white;
+            background: var(--accent3);
+            color: var(--text-main);
         }
         .cta-buttons a i { font-size: 1.2em; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: none; }
+        }
         @media (max-width: 968px) {
-            header h1 { font-size: 2.2em; }
-            header p { font-size: 1.1em; }
-            section { padding: 50px 30px; }
-            h2 { font-size: 2em; }
-            .packages { grid-template-columns: 1fr; }
+            header { padding: 60px 10px 40px; }
+            header h1 { font-size: 2em; }
+            header p { font-size: 1em; }
+            section { padding: 40px 10px; }
+            h2 { font-size: 1.3em; }
         }
         html { scroll-behavior: smooth; }
     </style>
@@ -362,7 +351,7 @@
         <div class="parallax"></div>
         <h2><i class="fas fa-handshake"></i> Варианты сотрудничества</h2>
         <h3><i class="fas fa-boxes"></i> Пакеты часов разработки</h3>
-        <p style="margin-bottom: 20px; color: #7f8c8d;">Оплата авансом, неиспользованные часы переносятся. Идеально для постоянной поддержки и развития проекта.</p>
+        <p style="margin-bottom: 20px; color: #7f8c8d;">Оплата частями, неиспользованные часы переносятся. Идеально для постоянной поддержки и развития проекта.</p>
         <div class="packages">
             <div class="package">
                 <div class="package-icon"><i class="fas fa-rocket"></i></div>
@@ -461,4 +450,3 @@
 </div>
 </body>
 </html>
-
