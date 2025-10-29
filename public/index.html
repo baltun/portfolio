@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Илья Колесников — Laravel разработка</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: #f8f9fa;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        /* Header с параллаксом */
+        header {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 40px 80px;
+            text-align: center;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(102,126,234,0.2);
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80') center/cover;
+            opacity: 0.18;
+            background-attachment: fixed;
+            z-index: 0;
+        }
+        header .content { position: relative; z-index: 1; }
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        header p {
+            font-size: 1.5em;
+            opacity: 0.95;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        header .experience {
+            font-size: 1em;
+            opacity: 0.85;
+            margin-bottom: 40px;
+        }
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 28px;
+            background: rgba(255,255,255,0.12);
+            border: 2px solid rgba(255,255,255,0.18);
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contact-info a:hover {
+            background: rgba(255,255,255,0.22);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.2);
+        }
+        .contact-info a i { font-size: 1.2em; }
+        /* Секции с параллаксом */
+        section {
+            background: white;
+            padding: 80px 60px;
+            margin: 60px 0;
+            border-radius: 20px;
+            box-shadow: 0 4px 40px rgba(102,126,234,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+        .parallax {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80') center/cover;
+            opacity: 0.10;
+            background-attachment: fixed;
+            z-index: 0;
+        }
+        h2 {
+            color: #667eea;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: 700;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+        h2 i { color: #764ba2; font-size: 0.9em; }
+        h3 {
+            color: #764ba2;
+            margin: 40px 0 25px 0;
+            font-size: 1.6em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h3 i { color: #667eea; }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        .tech-stack span {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid #764ba2;
+            transition: all 0.3s;
+        }
+        .tech-stack span:hover {
+            background: #764ba2;
+            color: #fff;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102,126,234,0.2);
+        }
+        /* Тарифные пакеты */
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .package {
+            border: 2px solid #e0e0e0;
+            padding: 45px 35px;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            z-index: 1;
+        }
+        .package:hover {
+            border-color: #667eea;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(102,126,234,0.15);
+        }
+        .package.popular {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 12px 40px rgba(102,126,234,0.2);
+        }
+        .package.popular h4,
+        .package.popular .price,
+        .package.popular ul li {
+            color: white;
+        }
+        .package.popular .price-detail {
+            color: #e0e0e0;
+        }
+        .package.popular ul li::before {
+            color: #fbbf24;
+        }
+        .package.popular::before {
+            content: "★ Популярно";
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: #fbbf24;
+            color: #764ba2;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85em;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(251,191,36,0.4);
+        }
+        .package-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+            color: white;
+            box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+        }
+        .package h4 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        .package .price {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: 800;
+            margin: 20px 0 10px;
+        }
+        .package .param {
+            font-size: 1.1em;
+            color: #764ba2;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .package .discount {
+            font-size: 1em;
+            color: #fbbf24;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+        .package ul {
+            list-style: none;
+            margin: 25px 0;
+        }
+        .package ul li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #4a4a4a;
+        }
+        .package ul li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 100px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(102,126,234,0.3);
+        }
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1920&q=80') center/cover;
+            opacity: 0.10;
+            background-attachment: fixed;
+        }
+        .cta-content { position: relative; z-index: 1; }
+        .cta h2 { color: white; margin-bottom: 25px; }
+        .cta h2 i { color: #fbbf24; }
+        .cta p { font-size: 1.4em; margin-bottom: 40px; opacity: 0.95; line-height: 1.6; }
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cta-buttons a {
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05em;
+            box-shadow: 0 8px 24px rgba(102,126,234,0.2);
+        }
+        .cta-buttons a:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(102,126,234,0.3);
+            background: #667eea;
+            color: white;
+        }
+        .cta-buttons a i { font-size: 1.2em; }
+        @media (max-width: 968px) {
+            header h1 { font-size: 2.2em; }
+            header p { font-size: 1.1em; }
+            section { padding: 50px 30px; }
+            h2 { font-size: 2em; }
+            .packages { grid-template-columns: 1fr; }
+        }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="content">
+            <h1>Илья Колесников</h1>
+            <p>Senior PHP Backend Developer | Laravel Expert</p>
+            <p class="experience">15+ лет в IT • 5+ лет Laravel • Полный цикл от идеи до production</p>
+            <div class="contact-info">
+                <a href="tel:+79787448283"><i class="fas fa-phone"></i> +7 (978) 744-82-83</a>
+                <a href="https://t.me/baltun"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="mailto:ivkol@mail.ru"><i class="fas fa-envelope"></i> ivkol@mail.ru</a>
+                <a href="https://github.com/baltun" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="parallax"></div>
+        <h2><i class="fas fa-code"></i> Что я делаю</h2>
+        <p class="intro-text">
+            Разрабатываю веб-приложения и API на Laravel с нуля или дорабатываю существующие проекты. Специализируюсь на backend-разработке, но работаю fullstack (VueJS, API, админки, интеграции). Имею опыт системного аналитика — могу перевести бизнес-требования в техническое решение.
+        </p>
+        <div class="tech-stack">
+            <span>Laravel 8-11</span>
+            <span>PHP 7.4-8.3</span>
+            <span>MySQL / PostgreSQL</span>
+            <span>Redis</span>
+            <span>REST API</span>
+            <span>VueJS</span>
+            <span>Filament</span>
+            <span>Docker</span>
+            <span>WebSockets</span>
+            <span>RabbitMQ</span>
+            <span>PHPUnit</span>
+            <span>CI/CD</span>
+        </div>
+    </section>
+    <section>
+        <div class="parallax"></div>
+        <h2><i class="fas fa-handshake"></i> Варианты сотрудничества</h2>
+        <h3><i class="fas fa-boxes"></i> Пакеты часов разработки</h3>
+        <p style="margin-bottom: 20px; color: #7f8c8d;">Оплата авансом, неиспользованные часы переносятся. Идеально для постоянной поддержки и развития проекта.</p>
+        <div class="packages">
+            <div class="package">
+                <div class="package-icon"><i class="fas fa-rocket"></i></div>
+                <h4>Старт</h4>
+                <div class="price">60 000 ₽</div>
+                <div class="param">40 часов</div>
+                <div class="param">1 500 ₽/час</div>
+                <div class="discount">Без скидки</div>
+                <ul>
+                    <li>Небольшие доработки</li>
+                    <li>Исправление багов</li>
+                    <li>Консультации</li>
+                    <li>Code review</li>
+                </ul>
+            </div>
+            <div class="package popular">
+                <div class="package-icon"><i class="fas fa-star"></i></div>
+                <h4>Бизнес</h4>
+                <div class="price">112 000 ₽</div>
+                <div class="param">80 часов</div>
+                <div class="param">1 400 ₽/час</div>
+                <div class="discount">Скидка 7%</div>
+                <ul>
+                    <li>Новый функционал</li>
+                    <li>Интеграции с API</li>
+                    <li>Рефакторинг кода</li>
+                    <li>Оптимизация БД</li>
+                    <li>Тестирование</li>
+                </ul>
+            </div>
+            <div class="package">
+                <div class="package-icon"><i class="fas fa-chart-line"></i></div>
+                <h4>Масштаб</h4>
+                <div class="price">216 000 ₽</div>
+                <div class="param">160 часов</div>
+                <div class="param">1 350 ₽/час</div>
+                <div class="discount">Скидка 10%</div>
+                <ul>
+                    <li>Крупные модули</li>
+                    <li>Архитектурные изменения</li>
+                    <li>Выделенный ресурс</li>
+                    <li>Приоритетная поддержка</li>
+                    <li>Менторинг команды</li>
+                </ul>
+            </div>
+        </div>
+        <h3 style="margin-top: 60px;"><i class="fas fa-project-diagram"></i> Проекты под ключ</h3>
+        <p style="margin-bottom: 20px; color: #7f8c8d;">Фиксированная цена после бесплатной консультации и оценки объема работ.</p>
+        <div class="packages">
+            <div class="package">
+                <div class="package-icon"><i class="fas fa-cogs"></i></div>
+                <h4>Админ-панель</h4>
+                <div class="price">от 80 000 ₽</div>
+                <ul>
+                    <li>CRUD интерфейсы</li>
+                    <li>Управление данными</li>
+                    <li>Роли и права</li>
+                    <li>Filament / Voyager</li>
+                </ul>
+            </div>
+            <div class="package">
+                <div class="package-icon"><i class="fas fa-lightbulb"></i></div>
+                <h4>MVP SaaS-сервиса</h4>
+                <div class="price">от 120 000 ₽</div>
+                <ul>
+                    <li>API + Frontend</li>
+                    <li>Авторизация</li>
+                    <li>Базовый функционал</li>
+                    <li>Деплой на сервер</li>
+                </ul>
+            </div>
+            <div class="package">
+                <div class="package-icon"><i class="fas fa-plug"></i></div>
+                <h4>Интеграции & API</h4>
+                <div class="price">от 60 000 ₽</div>
+                <ul>
+                    <li>REST API разработка</li>
+                    <li>Интеграция с внешними сервисами</li>
+                    <li>Автоматизация процессов</li>
+                    <li>Документация API</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="cta">
+        <div class="cta-content">
+            <h2><i class="fas fa-comments"></i> Готовы обсудить проект?</h2>
+            <p>Свяжитесь со мной удобным способом — обсудим задачу и найдем лучшее решение</p>
+            <div class="cta-buttons">
+                <a href="https://t.me/baltun"><i class="fab fa-telegram"></i> Написать в Telegram</a>
+                <a href="tel:+79787448283"><i class="fas fa-phone"></i> Позвонить</a>
+                <a href="mailto:ivkol@mail.ru"><i class="fas fa-envelope"></i> Написать на почту</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
